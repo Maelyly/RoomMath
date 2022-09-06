@@ -1,14 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { HomeList } from './src/home';
-import { NavigationContainer } from '@react-navigation/native';
+import { StyleSheet, View } from 'react-native';
+import { Home } from './src/home';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <View style={styles.container}>
-        <HomeList></HomeList>
-      </View>
-    </NavigationContainer>
+    <View style={styles.container}>
+      <Home></Home>
+    </View>
   );
 }
 

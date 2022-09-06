@@ -1,17 +1,31 @@
 import { useState } from 'react';
-import { SafeAreaView, Text, TextInput, View } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 export const Home = () => {
   const [cityName, setCityName] = useState('');
   const [wheather, setWheather] = useState('');
 
   function search() {
-    let r = fetch(
-      `https://weather.contrateumdev.com.br/api/weather/city/?city=${wheather}`
-    );
-    setWheather(r.wheather.description);
-    console.log(r.wheather.description);
-    navigation.navigate('Search', { wheather: wheather, city: cityName });
+    if (cityName == '') {
+      return alert('Digite uma cidade');
+    }
+    fetch(
+      `https://weather.contrateumdev.com.br/api/weather/city/?city=${cityName}`
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json.main.temp), setWheather(json.main.temp);
+        alert('Temperatura: ' + json.main.temp);
+        // navigator.navigate('Search', { wheather: wheather, city: cityName });
+      })
+      .catch((err) => console.log('Erro de solicitação', err));
   }
 
   return (
@@ -19,17 +33,17 @@ export const Home = () => {
       <View>
         <Text style={styles.text}>Wheather City</Text>
         <Text style={styles.text}>
-          Inform the city for Wheather information:
+          Informe uma cidade para ver a temperatura:
         </Text>
         <TextInput
           style={styles.formInput}
-          placeholder={'City Name'}
+          placeholder={'Nome da cidade'}
           value={cityName}
           onChangeText={setCityName}
           autoCapitalize={'none'}
         />
         <TouchableOpacity style={styles.button} onPress={() => search()}>
-          Search
+          <Text style={styles.buttonText}>Pesquisar</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -45,10 +59,10 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 20,
     marginBottom: 20,
-    width: '90%',
+    width: '100%',
     padding: 15,
     borderRadius: 10,
-    marginLeft: 10,
+    marginLeft: 100,
     alignItems: 'center',
     backgroundColor: 'blue',
   },
@@ -60,7 +74,12 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   text: {
-    fontSize: 15,
+    fontSize: 25,
     color: 'blue',
+    fontWeight: '600',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
   },
 });
