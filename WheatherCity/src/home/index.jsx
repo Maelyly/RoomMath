@@ -1,13 +1,26 @@
 import { useState } from 'react';
 import { SafeAreaView, Text, TextInput, View } from 'react-native';
 
-export const HomeList = () => {
+export const Home = () => {
   const [cityName, setCityName] = useState('');
+  const [wheather, setWheather] = useState('');
+
+  function search() {
+    let r = fetch(
+      `https://weather.contrateumdev.com.br/api/weather/city/?city=${wheather}`
+    );
+    setWheather(r.wheather.description);
+    console.log(r.wheather.description);
+    navigation.navigate('Search', { wheather: wheather, city: cityName });
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text>Wheather City</Text>
-        <Text>Inform the city for Wheather information:</Text>
+        <Text style={styles.text}>Wheather City</Text>
+        <Text style={styles.text}>
+          Inform the city for Wheather information:
+        </Text>
         <TextInput
           style={styles.formInput}
           placeholder={'City Name'}
@@ -15,10 +28,7 @@ export const HomeList = () => {
           onChangeText={setCityName}
           autoCapitalize={'none'}
         />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => console.log('code')}
-        >
+        <TouchableOpacity style={styles.button} onPress={() => search()}>
           Search
         </TouchableOpacity>
       </View>
@@ -48,5 +58,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 15,
+  },
+  text: {
+    fontSize: 15,
+    color: 'blue',
   },
 });

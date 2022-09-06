@@ -1,12 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { HomeList } from './src/home';
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <HomeList></HomeList>
-    </View>
+    <NavigationContainer>
+      <View style={styles.container}>
+        <HomeList></HomeList>
+      </View>
+    </NavigationContainer>
   );
 }
 
